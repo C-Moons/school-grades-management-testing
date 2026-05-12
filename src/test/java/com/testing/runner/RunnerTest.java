@@ -9,9 +9,8 @@ import io.cucumber.testng.CucumberOptions;
         "src/test/resources/features/student/MyGrades.feature",
         "src/test/resources/features/student/Performance.feature", 
         "src/test/resources/features/admin/LoginAdmin.feature",
-        "src/test/resources/features/admin/ManageUserForm.feature",
-        "src/test/resources/features/admin/ManageUserEdit.feature",
-        "src/test/resources/features/admin/ManageUserEditPW.feature"
+        "src/test/resources/features/admin/ManageUserE2E.feature",
+        "src/test/resources/features/admin/SubjectE2E.feature",
     }, 
     glue = {
         "com.testing.definition",

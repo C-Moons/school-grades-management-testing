@@ -3,10 +3,15 @@ package com.testing.definition.admin;
 import com.testing.page.admin.LoginPage;
 import com.testing.page.admin.ManageuserPage;
 import com.testing.utils.DriverUtil;
+import com.testing.utils.ScreenshotUtil;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 
 public class ManageUserDefinition {
@@ -14,11 +19,25 @@ public class ManageUserDefinition {
     private ManageuserPage manageuserPage;
     private LoginPage loginPage;
     private com.testing.page.admin.components.SidebarComponent sidebarComponent;
+    private Scenario scenario;
 
     public ManageUserDefinition() {
         this.manageuserPage = new ManageuserPage(DriverUtil.getInstance());
         this.loginPage = new LoginPage(DriverUtil.getInstance());
         this.sidebarComponent = new com.testing.page.admin.components.SidebarComponent(DriverUtil.getInstance());
+    }
+
+    @Before
+    public void before(Scenario scenario) {
+        this.scenario = scenario;
+    }
+
+    private void addScreenshot(String name) {
+        // 1. Simpan sebagai file lokal
+        ScreenshotUtil.takeScreenshot(DriverUtil.getInstance(), name);
+        // 2. Lampirkan ke Cucumber Report
+        final byte[] screenshot = ((TakesScreenshot) DriverUtil.getInstance()).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshot, "image/png", name);
     }
 
     @Given("Admin sudah login dan berada di halaman Manage Users")
@@ -70,6 +89,7 @@ public class ManageUserDefinition {
     @Then("User baru {string} seharusnya muncul di daftar tabel")
     public void userBaruSeharusnyaMunculDiDaftarTabel(String username) {
         Assert.assertTrue(manageuserPage.isUserInTable(username), "Username " + username + " tidak ditemukan di tabel!");
+        addScreenshot("Add_User_Success");
     }
 //Edit Feature
     @When("Admin klik tombol Edit pada user {string}")
@@ -92,6 +112,7 @@ public class ManageUserDefinition {
         String actualFullName = manageuserPage.getUserFirstName(username);
         Assert.assertTrue(actualFullName.contains(expectedFirstName), 
             "First name '" + expectedFirstName + "' tidak ditemukan dalam nama lengkap '" + actualFullName + "'!");
+        addScreenshot("Update_User_Success");
     }
 
 //Change Password Feature
@@ -119,5 +140,17 @@ public class ManageUserDefinition {
     public void passwordSuksesDiubah() {
         String alertText = manageuserPage.getSuccessMessage();
         Assert.assertTrue(alertText.toLowerCase().contains("success"), "Pesan sukses tidak muncul! Munculnya: " + alertText);
+        addScreenshot("Change_Password_Success");
+    }
+//Delete user Feature
+    @When("Admin klik tombol delete pada user {string}")
+    public void adminKlikDeleteButton(String username){
+        manageuserPage.clickDeleteUser(username);
+    }
+
+    @Then("Admin klik ok untuk hapus data")
+    public void adminKonfirmasiHapus(){
+        manageuserPage.acceptAlert();
+        addScreenshot("Delete_User_Success");
     }
 }

@@ -2,6 +2,8 @@ package com.testing.page.admin;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 public class ManageuserPage extends BasePage {
@@ -16,6 +18,7 @@ public class ManageuserPage extends BasePage {
 
     private By editFirstName = By.id("edit_first_name");
     private By updateButton = By.xpath("//div[@id='editUserModal']//button[contains(., 'Update')]");
+
 
     public ManageuserPage(WebDriver driver) {
         super(driver);
@@ -52,21 +55,20 @@ public class ManageuserPage extends BasePage {
 
     public void clickAddUser() {
         waitingElementClickable(addUserButton).click();
+        try { Thread.sleep(3000); } catch (InterruptedException e) {}
     }
 
     public boolean isUserInTable(String username) {
-        By userRow = By.xpath("//table//td[text()='" + username + "']");
-        try {
-            return waitingElementReady(userRow).isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+        By userRow = By.xpath("//table//td[contains(text(), '" + username + "')]");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(userRow)).isDisplayed();
     }
 
     // Methods for Edit
     public void clickEditUser(String username) {
-        By editBtn = By.xpath("//td[text()='" + username + "']/following-sibling::td//button[contains(., 'Edit')]");
-        waitingElementClickable(editBtn).click();
+        By editBtn = By.xpath("//button[@data-username='" + username + "'][contains(@class, 'primary')]");
+        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(editBtn));
+        scrollToElement(el);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
     }
 
     public void clearAndInputEditFirstName(String data) {
@@ -85,8 +87,10 @@ public class ManageuserPage extends BasePage {
 
     // Methods for Change Password
     public void clickChangePassword(String username) {
-        By changeBtn = By.xpath("//td[text()='" + username + "']/following-sibling::td//button[contains(., 'Password')]");
-        waitingElementClickable(changeBtn).click();
+        By changeBtn = By.xpath("//button[@data-username='" + username + "'][contains(@class, 'warning')]");
+        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(changeBtn));
+        scrollToElement(el);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
     }
 
     public void newPassword(String data) {
@@ -111,5 +115,17 @@ public class ManageuserPage extends BasePage {
     public String getSuccessMessage() {
         By alert = By.xpath("//div[contains(@class, 'alert-success')]");
         return waitingElementReady(alert).getText();
+    }
+
+//Methods for Delete User
+    public void clickDeleteUser(String username) {
+        By deleteBtn = By.xpath("//tr[td[contains(., '" + username + "')]]//a[contains(@class, 'danger')]");
+        WebElement el = wait.until(ExpectedConditions.presenceOfElementLocated(deleteBtn));
+        scrollToElement(el);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
+    }
+
+    public void acceptAlert() {
+        driver.switchTo().alert().accept();
     }
 }
