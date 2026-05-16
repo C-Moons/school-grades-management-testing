@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'Maven 3' // Pastikan nama tool 'maven' sudah di-config di Jenkins -> Global Tool Configuration
-        jdk 'jdk21'   // Pastikan nama tool 'jdk21' sudah di-config di Jenkins -> Global Tool Configuration
+        jdk 'JDK 21'   // Pastikan nama tool 'jdk21' sudah di-config di Jenkins -> Global Tool Configuration
     }
 
     environment {
