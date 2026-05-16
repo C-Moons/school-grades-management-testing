@@ -6,10 +6,6 @@ pipeline {
         jdk 'JDK 21'   // Pastikan nama tool 'jdk21' sudah di-config di Jenkins -> Global Tool Configuration
     }
 
-    environment {
-        // Jika butuh environment variable khusus, tambahkan di sini
-        // Contoh: BROWSER = 'chrome-headless'
-    }
 
     stages {
         stage('Checkout') {
