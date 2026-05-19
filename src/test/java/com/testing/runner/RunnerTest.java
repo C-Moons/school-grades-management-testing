@@ -11,6 +11,7 @@ import io.cucumber.testng.CucumberOptions;
         "src/test/resources/features/admin/LoginAdmin.feature",
         "src/test/resources/features/admin/ManageUserE2E.feature",
         "src/test/resources/features/admin/SubjectE2E.feature",
+        "src/test/resources/features/teacher/LoginTeacher.feature",
     }, 
     glue = {
         "com.testing.definition",
