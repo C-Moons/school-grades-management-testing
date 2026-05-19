@@ -1,6 +1,5 @@
 package com.testing.definition.admin;
 
-import java.sql.Driver;
 import java.time.Duration;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
