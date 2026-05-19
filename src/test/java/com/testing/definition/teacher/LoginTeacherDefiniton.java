@@ -20,20 +20,20 @@ public class LoginTeacherDefiniton {
     private LoginPage loginPage;
 
     @Given("Saya buka browser & akses halaman login teacher.")
-    public void openBrowserAndLogin(){
+    public void openBrowserandLogin(){
         loginPage = new LoginPage(DriverUtil.getInstance());
         DriverUtil.getInstance().get("http://localhost:8074/SIMNS/");
     }
 
     @When("Saya input username {string} & password {string} klik login.")
-    public void loginWeb(String username, String password){
+    public void loginWebsite(String username, String password){
         loginPage.inputUsername(username);
         loginPage.inputPassword(password);
         loginPage.clickButtonLogin();
     }
 
     @Then("menampilkan tampilan Dashboard teacher.")
-    public void dashboardPage(){
+    public void showDashboardPage(){
         WebDriverWait wait = new WebDriverWait(DriverUtil.getInstance(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.urlContains("/teacher.php"));
 
