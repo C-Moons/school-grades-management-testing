@@ -25,7 +25,7 @@ public class LoginTeacherDefiniton {
         DriverUtil.getInstance().get("http://localhost:8074/SIMNS/");
     }
 
-    @When("Saya input username {string} & password {string} klik login.")
+    @When("Saya input username {string} & password {string} klik login teacher.")
     public void loginWebsite(String username, String password){
         loginPage.inputUsername(username);
         loginPage.inputPassword(password);
