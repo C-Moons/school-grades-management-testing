@@ -21,6 +21,9 @@ public class Hook {
         final byte[] screenshot = ((TakesScreenshot) DriverUtil.getInstance()).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", scenario.getName());
         
+        // Save to filesystem for local debugging
+        com.testing.utils.ScreenshotUtil.takeScreenshot(DriverUtil.getInstance(), scenario.getName().replaceAll("[^a-zA-Z0-9_-]", "_"));
+        
         // Selalu tutup browser agar scenario berikutnya bersih
         DriverUtil.destroy();
     }

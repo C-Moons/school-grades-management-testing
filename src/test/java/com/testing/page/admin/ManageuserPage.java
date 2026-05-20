@@ -114,7 +114,15 @@ public class ManageuserPage extends BasePage {
 
     public String getSuccessMessage() {
         By alert = By.xpath("//div[contains(@class, 'alert-success')]");
-        return waitingElementReady(alert).getText();
+        return wait.until(driver -> {
+            try {
+                org.openqa.selenium.WebElement el = driver.findElement(alert);
+                if (el.isDisplayed()) return el.getText();
+                return null;
+            } catch (org.openqa.selenium.StaleElementReferenceException e) {
+                return null;
+            }
+        });
     }
 
 //Methods for Delete User

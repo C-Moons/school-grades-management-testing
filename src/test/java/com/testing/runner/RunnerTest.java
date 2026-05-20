@@ -12,6 +12,7 @@ import io.cucumber.testng.CucumberOptions;
         "src/test/resources/features/admin/ManageUserE2E.feature",
         "src/test/resources/features/admin/SubjectE2E.feature",
         "src/test/resources/features/teacher/LoginTeacher.feature",
+        "src/test/resources/features/teacher/MyStudentE2E.feature",
     }, 
     glue = {
         "com.testing.definition",
